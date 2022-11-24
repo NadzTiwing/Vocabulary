@@ -1,4 +1,4 @@
-# Vocabulary
-Where to test vocabulary knowledge
+# Simple App that views and shares pictures
+##Tech stacks:
 Framework used: NextJS
-Database: MySQL
+Database: MongoDB
