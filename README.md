@@ -1,4 +1,4 @@
 # Simple App that views and shares pictures
-##Tech stacks:
+## Tech stacks:
 Framework used: NextJS
 Database: MongoDB
