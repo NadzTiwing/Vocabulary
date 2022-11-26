@@ -1,0 +1,32 @@
+/**
+I chose this red-orange theme because it was calming to look at
+and it shows that the app is fun to use
+*/
+
+$red-orange: #FF5349 !important;
+$dark-red-orange: #e2281e !important;
+$orange: #FFA230 !important;
+
+$rounded-corner: 5px !important;
+
+.main-btn {
+    border-color:$red-orange;
+    border-radius: $rounded-corner;
+    background-color: $red-orange;
+    color: white;
+    padding: 2rem;
+    &:hover {
+        background-color: $dark-red-orange;
+        transition: 0.5s;
+    }
+}
+
+.hide {
+    display: none !important;
+}
+
+.no-bg {
+    background: transparent !important;
+    border: none !important;
+    text-decoration: none !important;
+}

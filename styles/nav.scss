@@ -1,0 +1,25 @@
+.navbar {
+    width: 100vw;
+    height: 10%;
+    background: $red-orange;
+    display: flex;
+    flex-direction: row;
+    .app-title {
+        padding: 0.5em;
+        color: white;
+    }
+}
+
+.filter-section {
+    display: flex;
+    justify-content: flex-end;
+    .filter-btn {
+        color: white;
+        &:hover {
+            color: black;
+        }
+    }
+    .day-selection {
+        margin-right: 1em;
+    }
+}

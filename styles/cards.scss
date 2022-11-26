@@ -1,0 +1,74 @@
+.input-card {
+    margin: 0.5em;
+    .actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; 
+    }    
+}
+
+.red-orange-btn {
+    @extend .main-btn;
+    height: 100%;
+    width: 50%;
+}
+
+.red-orange-txt {
+    color: $dark-red-orange;
+}
+
+.data-txt {
+    color: darkgray;
+    font-size: 0.8em !important;
+}
+
+.upload-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+    color: $red-orange;
+    &:hover {
+        color: $dark-red-orange;
+    }
+}
+
+.uploaded-img {
+    width: 100%;
+    height: auto;
+    padding: 1em;
+}
+
+
+.post-card {
+    @extend .input-card;
+} 
+
+.img-section {
+    position: relative;
+    .dropdown-toggle {
+        @extend .no-bg;
+        z-index: 2;
+        position: absolute;
+        right: 0;
+        opacity: 0.7;
+        color: darkgray;
+        font-size: 2em;
+        &::before {
+            content: none !important;
+        }
+        &:hover {
+            color: $red-orange;
+            background-color: transparent !important;
+            opacity: 1;
+            transition: 0.5s;
+        }
+    }
+}
+
+.btn-cancel {
+    color: darkgray !important;
+}
+
+.btn-save {
+    color: $red-orange;
+}
+

@@ -1,6 +1,20 @@
-# Simple App that views and shares pictures
+# Photo Sharing Web App
 
-## Tech stacks:
+---
 
-Framework used: NextJS <br/>
-Database: MongoDB
+### Description
+
+> Allows user to upload photos with an option to enter a caption and categorized it by day
+
+---
+
+### Tech stacks:
+
+**Frameworks**: NextJS <br/>
+**Database**: MongoDB
+
+---
+
+### Link to the web app:
+
+[Photo Sharing App](https://www.google.com)
