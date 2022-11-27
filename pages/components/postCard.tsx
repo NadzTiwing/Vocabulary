@@ -9,7 +9,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Form from 'react-bootstrap/Form';
 import { formatDate } from './../util/date';
 
-export const PostCard = (props:any) => {
+const PostCard = (props:any) => {
     let today: any = formatDate(new Date(), "fulldate");
      
     return(
@@ -64,3 +64,5 @@ export const PostCard = (props:any) => {
         </Card>
     );
 }
+
+export default PostCard;

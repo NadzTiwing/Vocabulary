@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { PostCard } from './postCard';
+import PostCard from './postCard';
 import { useState } from 'react';
 import { BsFillFileEarmarkImageFill } from "react-icons/bs";
 import Compressor from 'compressorjs';
@@ -11,7 +11,7 @@ import { IResult } from '../interface';
 import Navbar from './navbar';
 import { formatDate } from '../util/date';
 
-export const Main = (props:any) => {
+const Main = (props:any) => {
     const [posts, setPosts] = useState(props.posts);
     const [chosenImg, setChosenImg] = useState() as any;
     const [previewImg, setPreviewImg] = useState('');
@@ -231,3 +231,5 @@ export const Main = (props:any) => {
         </>
     );
 }
+
+export default Main;
