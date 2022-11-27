@@ -7,12 +7,12 @@ export default async function handler(
   res: NextApiResponse<IResponse>
 ) {
     const client = await clientPromise;
-    const database = client.db(process.env.MONGODB_DB);
     const id = req.body.id;
     const caption = req.body.caption;
 
     try {
-        await database.collection("picture_posts").updateOne(
+        //updates the selected post's caption only
+        await client.db().collection("picture_posts").updateOne(
             {_id: id},
             {$set: {caption: caption} }    
         );

@@ -1,10 +1,21 @@
+.card {
+    border: 3px solid rgb(219, 219, 219) !important;
+    box-shadow: 1px 1px 8px 1px #888888;
+}
+
 .input-card {
     margin: 0.5em;
     .actions {
         display: flex;
         flex-direction: row;
         justify-content: space-between; 
-    }    
+    }
+    @media screen and (min-width: $table-size) {
+        margin: 1.5em 23em;
+    }
+    @media screen and (min-width: $phone-size) and (max-width: $table-size) {
+        margin: 1.5em 12em;
+    }
 }
 
 .red-orange-btn {
@@ -22,9 +33,15 @@
     font-size: 0.8em !important;
 }
 
+.form-label {
+    margin-bottom: 0px !important;
+    background: white !important;
+}
+
 .upload-icon {
     font-size: 1.5em;
-    cursor: pointer;
+    background: white !important;
+    cursor: pointer !important;
     color: $red-orange;
     &:hover {
         color: $dark-red-orange;
@@ -35,6 +52,7 @@
     width: 100%;
     height: auto;
     padding: 1em;
+    background-color: white !important;
 }
 
 
@@ -46,21 +64,23 @@
     position: relative;
     .dropdown-toggle {
         @extend .no-bg;
-        z-index: 2;
+        z-index: 999;
         position: absolute;
         right: 0;
-        opacity: 0.7;
         color: darkgray;
         font-size: 2em;
+        padding: 5px;
+        margin: 0;
         &::before {
             content: none !important;
         }
         &:hover {
             color: $red-orange;
-            background-color: transparent !important;
-            opacity: 1;
             transition: 0.5s;
         }
+    }
+    .dropdown-icon {
+        background-color: transparent !important;
     }
 }
 

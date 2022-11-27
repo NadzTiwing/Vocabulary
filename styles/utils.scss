@@ -1,3 +1,4 @@
+//functions that I might use
 @mixin x-padding-pos ($left, $right){
     padding-left: $left;
     padding-right: $right;
@@ -6,4 +7,14 @@
 @mixin y-padding-pos ($top, $bottom){
     padding-top: $top;
     padding-bottom: $bottom;
+}
+
+@mixin x-margin ($left, $right){
+    margin-left: $left;
+    margin-right: $right;
+}
+
+@mixin y-margin ($top, $bottom){
+    margin-top: $top;
+    margin-bottom: $bottom;
 }

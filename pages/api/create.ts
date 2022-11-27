@@ -3,10 +3,10 @@ import fs from "fs-extra";
 import cloudinary from "cloudinary";
 import clientPromise from "../config/mongodb";
 import formidable from "formidable";
-import { IResponse, IResult } from '../interface';
+import { IResponse, IPost } from '../interface';
 
 
-//turn off validator if the sent request is a JSON
+//turn off validator that checks if the sent request is a JSON
 export const config = {
     api: {
         bodyParser: false
@@ -18,11 +18,10 @@ export default async function handler(
   res: NextApiResponse<IResponse>
 ) {
     const client = await clientPromise;
-    const database = client.db(process.env.MONGODB_DB);
 
     const form = new formidable.IncomingForm();
     const path = './public/temp';
-    let uploadData: IResult = {
+    let uploadData: IPost = {
         _id: undefined,
         datePosted: "",
         url: "",
@@ -60,7 +59,7 @@ export default async function handler(
         })
         .then(async (data) => {
             fs.unlinkSync(filepathCopy);
-            await database.collection("picture_posts").insertOne(uploadData);
+            await client.db().collection("picture_posts").insertOne(uploadData);
 
             res.status(201).json({ status: "success", result: uploadData });
             console.log("Successfully created!");

@@ -9,11 +9,11 @@ export default async function handler(
   res: NextApiResponse<IResponse>
 ) {
     const client = await clientPromise;
-    const database = client.db(process.env.MONGODB_DB);
     const id = req.body.id;
     try {
+        //remove first the photo from the cloudinary then proceed to delete the post in the database
         cloudinary.v2.uploader.destroy(id).then( async (res: any) => {
-            await database.collection("picture_posts").deleteOne({ _id: id});
+            await client.db().collection("picture_posts").deleteOne({ _id: id});
             console.log("Successfully deleted!");
         });
         res.status(201).json({ status: "success" })

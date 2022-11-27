@@ -5,9 +5,15 @@ export interface IResponse {
     result?: any
 }
 
-export interface IResult {
+export interface IPost {
     _id: ObjectId | undefined,
     datePosted: Date | "",
+    dateStr?: string,
     url: string,
-    caption: string
+    caption: string,
+    isEdit?: boolean
+}
+
+export interface ILoader {
+    size: string
 }

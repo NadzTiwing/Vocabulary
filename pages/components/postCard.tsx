@@ -1,15 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'next/image';
-import { IResult } from '../interface';
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Spinner from './spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Form from 'react-bootstrap/Form';
 import { formatDate } from './../util/date';
+import { memo } from 'react';
 
-const PostCard = (props:any) => {
+const PostCard = (props: any) => {
     let today: any = formatDate(new Date(), "fulldate");
      
     return(
@@ -19,7 +18,7 @@ const PostCard = (props:any) => {
                 key={`dropdown-${props._id}`}
                 drop="start"
                 variant="secondary"
-                title={<BsThreeDotsVertical/>}
+                title={<BsThreeDotsVertical className="dropdown-icon"/>}
                 >
                 <Dropdown.Item eventKey="edit" onClick={()=>{props.isEditPost(props._id)}}>EDIT CAPTION</Dropdown.Item>
                 <Dropdown.Item eventKey="delete" onClick={()=>{props.onRemove(props._id)}} className="red-orange-txt">
@@ -39,7 +38,7 @@ const PostCard = (props:any) => {
             </div>
             <Card.Body>
                 <Card.Title className="data-txt">
-                    { today === props.dateStr ? "Today": props.dateStr }
+                    { today === props.datePosted ? "Today": props.datePosted }
                 </Card.Title>
                 
                 {props.isEdit ? 
@@ -65,4 +64,5 @@ const PostCard = (props:any) => {
     );
 }
 
-export default PostCard;
+//It will only force this component to rerender if the props are changed.
+export default memo(PostCard);

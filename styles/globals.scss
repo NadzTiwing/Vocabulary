@@ -30,22 +30,52 @@ a {
   }
 }
 
-.loader {
+/**
+ *Simple loader
+ *it helps the user knows that the process is ongoing
+*/
+
+//used in the uploaded posts sections
+.loader-lg {
   margin: 5em auto;
   border: 10px solid #f3f3f3;
   border-top: 10px solid $red-orange;
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  animation: spin 1s linear infinite;
+  animation: $spin-animation;
+  -webkit-animation: $spin-animation;
+  -moz-animation: $spin-animation;
+  -o-animation: $spin-animation;
+}
+
+//used beside the post button in the card section where the user enter their post
+.loader-sm {
+  display: inline-block;
+  margin: 0 auto;
+  border: 3px solid #f3f3f3;
+  border-top: 5px solid $red-orange;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: $spin-animation;
+  -webkit-animation: s$spin-animation;
+  -moz-animation: $spin-animation;
+  -o-animation: $spin-animation;
 }
 
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: $rotate-0;
+    -webkit-transform: $rotate-0;
+    -moz-transform: $rotate-0;
+    -o-transform: $rotate-0;
   }
   100% {
-    transform: rotate(360deg);
+    transform: $rotate-360;
+    -webkit-transform: $rotate-360;
+    -moz-transform: $rotate-360;
+    -o-transform: $rotate-360;
   }
 }
 

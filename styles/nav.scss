@@ -6,10 +6,12 @@
     flex-direction: row;
     .app-title {
         padding: 0.5em;
-        color: white;
+        color: white;  
+        background: transparent;
     }
 }
 
+//put the day filter selection in the right corner
 .filter-section {
     display: flex;
     justify-content: flex-end;

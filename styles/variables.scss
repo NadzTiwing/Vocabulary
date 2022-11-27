@@ -1,6 +1,8 @@
 /**
 I chose this red-orange theme because it was calming to look at
 and it shows that the app is fun to use
+
+This file is where I put all the necessary reusable variables
 */
 
 $red-orange: #FF5349 !important;
@@ -8,6 +10,13 @@ $dark-red-orange: #e2281e !important;
 $orange: #FFA230 !important;
 
 $rounded-corner: 5px !important;
+
+$phone-size: 430px;
+$table-size: 768px;
+
+$spin-animation: spin 1s linear infinite;
+$rotate-0: rotate(0deg);
+$rotate-360: rotate(360deg);
 
 .main-btn {
     border-color:$red-orange;

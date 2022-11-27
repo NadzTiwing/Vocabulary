@@ -1,14 +1,11 @@
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+
 import PostCard from './postCard';
 import { useState } from 'react';
-import { BsFillFileEarmarkImageFill } from "react-icons/bs";
 import Compressor from 'compressorjs';
-import Image from 'next/image'
 import Spinner from './spinner';
-import { IResult } from '../interface';
+import { IPost } from '../interface';
 import Navbar from './navbar';
+import InputCard from './input';
 import { formatDate } from '../util/date';
 
 const Main = (props:any) => {
@@ -17,26 +14,31 @@ const Main = (props:any) => {
     const [previewImg, setPreviewImg] = useState('');
     const [caption, setCaption] = useState('');
     const [isPosting, setPosting] = useState(false);
-    const [selected, setSelected] = useState<string>("all");
-    const uniqueDays = props.posts.filter(
-        (post: any, index: number, self: any) => {
-            return self[index].dateStr.indexOf(post.dateStr) === index;
-        });    
+    let tempDates: Array<string> = [];
+    props.posts.map( (post: IPost) => {
+        tempDates.push(post.dateStr || "");
+    })
+    const uniqueDays = tempDates.filter( (date: string, index: number, array: Array<string>) => {
+        return array.indexOf(date) == index;
+    });
+    
 
     const isFilesizeExceed = (size: number) => {
         const imgSize = size / 1024 / 1024; // in MB
         return imgSize > 2 ? true : false;
     }
 
-    const onSelectFile = async (evt: any) => {
+    const onSelectFile = async (evt: Event) => {
         let imgUrlObj:any;
-        const img = evt.target.files;
+        const img = (evt.target as HTMLInputElement).files;
         if (!img || img.length === 0) {
             return;
         }
         
         const imgSize = img[0].size;
-        if(isFilesizeExceed(imgSize)) { // if filesize exceeds 2MB, compress the image
+
+        // if filesize exceeds 2MB, compress the image
+        if(isFilesizeExceed(imgSize)) { 
             new Compressor(img[0], {
                 quality: 0.6,
                 success: (compressedImg) => {
@@ -48,8 +50,7 @@ const Main = (props:any) => {
                     setChosenImg(img);
                     imgUrlObj = URL.createObjectURL(compressedImg);
                     setPreviewImg(imgUrlObj);
-                    //preventMemoryLeaks(imgUrlObj);
-                    return () => URL.revokeObjectURL(imgUrlObj);
+                    return () => URL.revokeObjectURL(imgUrlObj); //prevent memory leaks
                   }
                 },
                 error: (err) => {
@@ -61,8 +62,7 @@ const Main = (props:any) => {
             setChosenImg(img);
             imgUrlObj = URL.createObjectURL(img[0]);
             setPreviewImg(imgUrlObj);
-            //preventMemoryLeaks(imgUrlObj);
-            return () => URL.revokeObjectURL(imgUrlObj);
+            return () => URL.revokeObjectURL(imgUrlObj); //prevent memory leaks
         }
     }
 
@@ -92,8 +92,10 @@ const Main = (props:any) => {
                 let newPost = {
                     _id: result._id,
                     datePosted: result.datePosted,
+                    dateStr: formatDate(new Date(result.datePosted), "fulldate"),
                     caption: result.caption,
-                    url: result.url
+                    url: result.url,
+                    isEdit: false
                 }
                 posts.unshift(newPost);
                 setPosting(false);
@@ -105,7 +107,7 @@ const Main = (props:any) => {
         } catch (e) { console.error(e); }   
     }
 
-    const removePost = async (id: any) => {
+    const removePost = async (id: IPost["_id"]) => {
         if (window.confirm("Are you sure you want to remove this post?")) { 
             const updatePosts = await fetch("/api/delete", {
                 method: "DELETE",
@@ -120,31 +122,35 @@ const Main = (props:any) => {
                     alert("Successfully removed!");
                 }
             } catch (e) { console.error(e); }  
-            let updatedPosts = posts.filter((post: IResult) => post._id !== id);
+            let updatedPosts = posts.filter((post: IPost) => post._id !== id);
             setPosts(updatedPosts);
         } 
     }
 
-    const isEditPost = (id: any) => {
+    const isEditPost = (id: IPost["_id"]) => {
         setPosts(
-            posts.map( (post: any) => {
+            posts.map( (post: IPost) => {
                 if(post._id === id) post.isEdit = !post.isEdit;
                 return post;
             })
         );
     }
 
-    const handleChange = (id:any, value: string) => {
-        setPosts(posts.map( (post: any) => {
+    const handleChange = (id: IPost["_id"], value: string) => {
+        setPosts(posts.map( (post: IPost) => {
             if(post._id === id) post.caption = value;
             return post;
         }));
     }
 
-    const updatePost = async (id: any) => {
+    const updatePost = async (id: IPost["_id"]) => {
+        let txt:string="";
+        posts.map( (post: IPost) => {
+            if(post._id === id) txt= post.caption;
+        });
         const updatePosts = await fetch("/api/update", {
             method: "PUT",
-            body: JSON.stringify({id, caption}),
+            body: JSON.stringify({id, caption: txt}),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -159,66 +165,28 @@ const Main = (props:any) => {
     }
 
     const filterPosts = (selectedDate: string) => {
-        if(selectedDate !== "all") setPosts(posts.filter((post: any) => post.dateStr === selectedDate ));
-        else setPosts(posts);
-        console.log("filtered!");
+        if(selectedDate !== "all") setPosts(props.posts.filter((post: IPost) => post.dateStr === selectedDate ));
+        else setPosts(props.posts);
     }
     
     return(
         <>
         <Navbar filterPosts={filterPosts} days={uniqueDays}/>
-        <Card className="input-card">
-            <Card.Body>
-                <Form>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                        <Form.Control 
-                        placeholder="Share your memorable photo" 
-                        as="textarea" 
-                        rows={3} 
-                        value={caption}
-                        onChange={evt=>setCaption(evt.target.value)}
-                        />
-                    </Form.Group>
-                </Form>
-                { previewImg && 
-                    <Image
-                        src={previewImg}
-                        alt="image"
-                        placeholder="blur"
-                        blurDataURL={previewImg}
-                        width={700}
-                        height={475}
-                        sizes="100vw"
-                        className="uploaded-img"
-                        style={{
-                            width: "100%",
-                            height: "auto",
-                        }}
-                    />
-                }
-                <div className="actions">
-                    <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Label className="upload-icon"> <BsFillFileEarmarkImageFill/> </Form.Label>
-                        <Form.Control 
-                        type="file" 
-                        className="hide"
-                        name="newFile" 
-                        accept="image/png, image/jpeg, image/jpg"
-                        onChange={(evt) => onSelectFile(evt)}
-                        disabled={isPosting}
-                    />
-                    </Form.Group>
-                    <Button className="red-orange-btn" onClick={uploadPost} disabled={isPosting}>{isPosting ? "posting..." : "POST"}</Button>
-                </div>
-            </Card.Body>
-        </Card>
+        <InputCard 
+        caption={caption}
+        setCaption={setCaption} 
+        previewImg={previewImg} 
+        onSelectFile={onSelectFile}
+        isPosting={isPosting}
+        uploadPost={uploadPost}
+        />
         { posts ? 
-        posts.map((post: any) => (
+        posts.map((post: IPost) => (
             <PostCard 
             key={post._id}  
             _id={post._id}
             url={post.url}
-            datePosted={post.datePosted}
+            datePosted={post.dateStr}
             caption={post.caption}
             onRemove={removePost}
             isEditPost={isEditPost}
@@ -226,7 +194,7 @@ const Main = (props:any) => {
             updatePost={updatePost}
             handleChange={handleChange}
             />
-        )) : <Spinner/>
+        )) : <Spinner size="lg"/>
         }
         </>
     );
