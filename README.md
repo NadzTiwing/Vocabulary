@@ -1,6 +1,6 @@
 # PICSHARE
 
-#### _Developed by_: _Nadia_ _Tiwing_
+#### _Developed by_: _Nadia A. Tiwing_
 
 ### Description
 
@@ -42,7 +42,6 @@
 
 - SCSS files
   - _variables.scss_ - stores reusable variables
-  - _utils.scss_ - stores reusable functions or @mixin
   - _nav.scss_ - customized navigation bar
   - _cards.scss_ - customized input and post cards
 - pages/config
